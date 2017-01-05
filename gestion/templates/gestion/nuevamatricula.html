@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block matricularmea %}active{% endblock %}
+{% block titulo %}Matrícula {{curso}}{% endblock %}
+{% block content %}
+{% if error == 1 %}
+	<p>Ya estás matriculado en este curso</p>
+{% elif error == 2 %}
+	<p>El plazo de matriculación está cerrado</p>
+{% else %}
+	<div style="width:80%; margin:auto;">
+	<form method="post" action="">
+	    {% csrf_token %}
+	    <table>
+	    <tr><td width=150px></td></tr>
+	    {{ form }}
+	    </table>
+	    <br><input type="submit" value="Matricularme" class="btn btn-default"/>
+	</form>
+	</div>
+{% endif %}
+{% endblock %}

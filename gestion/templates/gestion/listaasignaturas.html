@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block calificara %}active{% endblock %}
+
+{% block titulo %}Consulta del Expediente{% endblock %}
+
+{% block content %}
+{% if lista_de_matriculas %}
+	<table class="table">
+	<tr><th>Nombre</th><th>Cuatrimestre</th><th>Primera Convocatoria</th><th>Segunda Convocatoria</th></tr>
+	{% for mat in lista_de_matriculas %}
+		<tr><td><a href="{{ request.path }}{{ mat.asignatura.id }}">{{ mat.asignatura.nombre }}</a></td><td>{{ mat.asignatura.cuatrimestre }}</td>
+		<td>{% if mat.noPresentado1 %}NP{% elif mat.nota1 == NULL %}NE{% else %}<p class="{% if mat.nota1 >= 5 %}text-success{% else %}text-danger{% endif %}">{{ mat.nota1 }}{% if mat.matriculaHonor1 %} (MH){% endif %}{% endif %}</p></td>
+		<td>{% if mat.noPresentado2 %}NP{% elif mat.nota2 == NULL %}NE{% else %}<p class="{% if mat.nota2 >= 5 %}text-success{% else %}text-danger{% endif %}">{{ mat.nota2 }}{% if mat.matriculaHonor2 %} (MH){% endif %}{% endif %}</p></td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<div class="alert alert-danger">
+      <strong>Error!</strong> No hay asignaturas disponibles.
+    </div>
+{% endif %}
+{% endblock %}

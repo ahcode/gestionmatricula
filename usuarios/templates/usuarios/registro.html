@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block titulo %}{% if tipo == 'alumno' %}Nuevo Alumno{% else %}Nuevo Profesor{% endif %}{% endblock %}
+{% block content %}
+{% if request.user.is_authenticated %}
+	<p>Debes cerrar sesión para registrar un nuevo usuario</p>
+{% else %}
+	<form method="post" action="">
+	    {% csrf_token %}
+	    <table>
+	    <tr><td width="200px"></td></tr>
+	    {{ form }}
+	    </table><br>
+	    <input type="submit" value="Registrarse" class="btn btn-default"/>
+	</form>
+	{% if tipo == 'alumno' %}
+		<br><p>Si quieres registrarte como profesor pulsa <a href="{% url 'registro' 'profesor' %}">aquí</a>.</p>
+	{% endif %}
+{% endif %}
+{% endblock %}

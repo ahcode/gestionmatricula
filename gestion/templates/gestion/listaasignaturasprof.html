@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block calificara %}{% if calificar %}active{% endif %}{% endblock %}
+{% block todosa %}{% if not calificar %}active{% endif %}{% endblock %}
+
+{% block titulo %}
+{% if calificar %}
+	Calificar Alumnos
+{% else %}
+	Consultar Todos los Cursos
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if lista_de_asignaturas %}
+	<div class="list-group" style="width:70%; margin:auto;">
+	{% for asig in lista_de_asignaturas %}
+		<a href="{{ request.path }}{{ asig.id }}" class="list-group-item"><h4 align=center>{{ asig.nombre }}</h4></a>
+	{% endfor %}
+	</div>
+{% else %}
+	<div class="alert alert-danger">
+      <strong>Error!</strong> No hay asignaturas disponibles.
+    </div>
+{% endif %}
+{% endblock %}

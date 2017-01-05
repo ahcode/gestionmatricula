@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block expedientea %}active{% endblock %}
+{% block titulo %}Consulta del Expediente{% endblock %}
+{% block content %}
+{% if lista_de_cursos %}
+	<div class="list-group" style="margin:auto; width:60%">
+	{% for curso in lista_de_cursos %}
+		<a class="list-group-item" href="{% url 'gestion:curso' curso.id %}"><h4 align=center>{{ curso.getCadena }}</h4></a>
+	{% endfor %}
+	</div>
+{% else %}
+	<div class="alert alert-danger">
+      <strong>Error!</strong> No estás matriculado en ningún curso.
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block calificara %}active{% endblock %}
+{% block titulo %}Calificar Alumnos{% endblock %}
+{% block content %}
+<div style="width:80%; margin:auto;">
+	<p><strong>Alumno:</strong> {{ matricula.alumno.first_name }} {{ matricula.alumno.last_name }}</p>
+	<p><strong>Asignatura:</strong> {{ matricula.asignatura.nombre }}</p>
+	<p><strong>Curso:</strong> {{ matricula.curso.getCadena }}</p>
+	<form method="post">
+		{% csrf_token %}
+		<table>
+		<tr><td width="200px"></td></tr>
+		{{ form }}
+		</table><br>
+		<input type="submit" value="Guardar" class="btn btn-default"/>
+	</form>
+</div>
+{% endblock %}

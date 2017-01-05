@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block asignaturasa %}active{% endblock %}
+{% block titulo %}Lista de Asignaturas{% endblock %}
+{% block content %}
+{% if lista_de_asignaturas %}
+	<p><table class="table table-striped">
+	<tr><th>Nombre</th><th>Carrera</th><th>Curso</th><th>Cuatrimestre</th></tr>
+	{% for asig in lista_de_asignaturas %}
+		<tr><td>{{ asig.nombre }}</td><td>{{ asig.carrera.nombre }}</td><td>{{ asig.curso }}</td><td>{{ asig.cuatrimestre }}</td></tr>
+	{% endfor %}
+	</table></p>
+{% else %}
+	<div class="alert alert-danger">
+      <strong>Error!</strong> No hay ninguna asignatura disponible.
+    </div>
+{% endif %}
+<p><a class="btn btn-primary" href="{% url 'gestion:nuevaasignatura' %}">Nueva Asignatura</a></p>
+{% endblock %}

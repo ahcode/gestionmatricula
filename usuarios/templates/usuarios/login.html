@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block titulo %}Iniciar Sesión{% endblock %}
+{% block content %}
+{% if request.user.is_authenticated %}
+	<p>Ya hay una sesión abierta</p>
+{% else %}
+	<form method="post">
+		{% csrf_token %}
+		<table>
+		<tr><td width="200px"></td></tr>
+		{{ form }}
+		</table><br>
+		<input type="submit" value="Iniciar" class="btn btn-default"/>
+	</form>
+{% endif %}
+{% endblock %}

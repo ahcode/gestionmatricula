@@ -1,0 +1,155 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}Gestión de Matrícula{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- LIBRERIAS BOOTSTRAP -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+{% block head %}{% endblock %}
+
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px;}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+      position: absolute;
+	  bottom: 0;
+	  width: 100%;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="{% url 'gestion:index' %}">GeMa</span></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="{% block indexa %}{% endblock %}"><a href="{% url 'gestion:index' %}">Inicio</a></li>
+        {% if request.user.is_superuser %}
+        <li class="{% block verificara %}{% endblock %}"><a href="{% url 'gestion:verificarprofesor' %}">Verificar Profesores</a></li>
+        <li class="{% block cursosa %}{% endblock %}"><a href="{% url 'gestion:gestioncursos' %}">Cursos</a></li>
+        <li class="{% block carrerasa %}{% endblock %}"><a href="{% url 'gestion:gestioncarreras' %}">Carreras</a></li>
+        <li class="{% block asignaturasa %}{% endblock %}"><a href="{% url 'gestion:gestionasignaturas' %}">Asignaturas</a></li>
+        {% elif request.user.is_staff %}
+        <li class="{% block calificara %}{% endblock %}"><a href="{% url 'gestion:asignaturascalificar' %}">Calificar</a></li>
+        <li class="{% block todosa %}{% endblock %}"><a href="{% url 'gestion:asignaturasconsultar' %}">Todos los Cursos</a></li>
+        {% elif request.user.is_authenticated and not request.user.profesorSinVerificar %}
+        <li class="{% block matricularmea %}{% endblock %}"><a href="{% url 'gestion:cursosmatricula' %}">Matricularme</a></li>
+        <li class="{% block expedientea %}{% endblock %}"><a href="{% url 'gestion:expediente' %}">Consultar Expediente</a></li>
+        {% endif %}
+        <li class="{% block instruccionesa %}{% endblock %}"><a href="{% url 'gestion:instrucciones' %}">Instrucciones</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="{% url 'registro' 'alumno' %}"><span class="glyphicon glyphicon-new-window"></span> Registro</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2">
+      <br><br>
+      <div style="height:120px;"><p><a href="http://www.uco.es/"><img src="{% static 'gestion/uco.gif' %}" width=260 alt="UCO" onmouseover="this.width=280;" onmouseout="this.width=260;"/><p></a></p></div>
+      <div style="height:120px;"><p><a href="http://moodle.uco.es/"><img src="{% static 'gestion/moodle.png' %}" width=260 alt="Moodle" onmouseover="this.width=280;" onmouseout="this.width=260;"/></a></p></div>
+      <div style="height:120px;"><p><a href="https://www.djangoproject.com/"><img src="{% static 'gestion/django.png' %}" width=260 alt="UCO" onmouseover="this.width=280;" onmouseout="this.width=260;"/><p></a></p></div>
+      <div style="height:120px;"><p><a href="http://getbootstrap.com/"><img src="{% static 'gestion/bootstrap.png' %}" width=260 alt="UCO" onmouseover="this.width=280;" onmouseout="this.width=260;"/><p></a></p></div>
+    </div>
+    <div class="col-sm-8 text-left">
+    {% if sinpermiso %}
+      <br><br><br>
+      <div class="alert alert-danger">
+        <strong>Acceso Denegado!</strong> No tienes permiso para acceder a esta página.
+      </div>
+    {% else %}
+      <h1>{% block titulo %}{% endblock %}</h1>
+	    <hr width=100% align="center"> 
+      {% block content %}{% endblock %}
+    {% endif %}
+    </div>
+    <div class="col-sm-2">
+      <br><br>
+      {% if request.user.is_authenticated %}
+      <div class="well">
+        <p>Bienvenido {{ request.user.username }}</p>
+        <p>
+        {% if request.user.is_superuser %}
+        (Administrador)
+        {% elif request.user.is_staff or request.user.profesorSinVerificar %}
+        (Profesor)
+        {% else %}
+        (Alumno {{ request.user.carrera.nombre }})
+        {% endif %}
+      </div>
+      {% if not request.user.is_superuser %}
+      <div class="well">
+        <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
+      </div>
+      {% endif %}
+        {% if request.user.profesorSinVerificar %}
+          <div class="alert alert-danger">
+            <strong>Atención!</strong> Tu cuenta debe ser verificada por un administrador. No podrás realizar gestiones hasta entonces.
+          </div>
+        {% endif %}
+      {% else %}
+      <div class="well">
+        <p>Bienvenido Invitado</p>
+      </div>
+      <div class="well">
+        <p>Inicia sesión o registrate para comenzar</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>Realizado por: Álvaro Herrero Pérez</p>
+</footer>
+
+</body>
+</html>

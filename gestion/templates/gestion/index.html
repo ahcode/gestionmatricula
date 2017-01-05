@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block indexa %}active{% endblock %}
+{% block titulo %}Gestión de Matrícula{% endblock %}
+{% block content %}
+<table align=center width=70%><tr><td width=30%><img src="{% static 'gestion/matricula.png' %}" alt="Matrícula"/></td><td><h4 class="text-justify">Este sitio web está dedicado a la gestión de matrículas de una universidad. Los alumnos podrán matricularse en las asignaturas que deseen para un determinado curso siempre que el plazo de matrícula esté abierto así como consultar los resultados de su expediente académico. Los profesores podrán calificar las distintas convocatorias de sus alumnos.</h4></td></tr></table>
+{% endblock %}

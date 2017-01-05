@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block verificara %}active{% endblock %}
+{% block titulo %}Verificar Profesores{% endblock %}
+{% block content %}
+{% if lista_de_profesores %}
+	<table class="table" width=100%>
+		<tr><th>Usuario</th><th>Email</th><th>Nombre</th><th>Acciones</th></tr>
+	{% for prof in lista_de_profesores %}
+		<tr><td>{{ prof.username }}</td><td>{{ prof.email }}</td><td>{{ prof.first_name }} {{ prof.last_name }}</td><td><a href="{% url 'gestion:verificarp' prof.id %}" class="btn btn-success">Verificar</a> <a class="btn btn-danger" href="{% url 'gestion:eliminarp' prof.id %}">Eliminar</a></td></tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<div class="alert alert-danger">
+      <strong>Error!</strong> No hay ningún profesor sin verificar.
+    </div>
+{% endif %}
+{% endblock %}

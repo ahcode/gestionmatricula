@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block expedientea %}{% if not profesor %}active{% endif %}{% endblock %}
+{% block todosa %}{% if profesor %}active{% endif %}{% endblock %}
+{% block titulo %}{% if profesor %}Consultar Todos los Cursos{% else %}Consulta del Expediente{% endif %}{% endblock %}
+{% block content %}
+	<table class="table">
+		<tr><th width=20%>Asignatura:</th><td>{{ matricula.asignatura.nombre }}</td></tr>
+		<tr><th>Profesores:</th><td>
+		{% for prof in profesores %}
+			{% if forloop.counter != 1 %}, {% endif %}
+			{{ prof.first_name }} {{ prof.last_name }}
+		{% endfor %}</td></tr>
+		<tr><th>Alumno:</th><td>{{ matricula.alumno.first_name }} {{ matricula.alumno.last_name }}</td></tr>
+		<tr><th>Primera Convocatoria:</th><td>
+		{% if matricula.noPresentado1 %}
+			No Presentado
+		{% elif matricula.nota1 == NULL %}
+			No Evaluado
+		{% else %}
+			{{ matricula.nota1 }}
+			{% if matricula.matriculaHonor1 %}
+				 (Matricula de Honor)
+			{% endif %}
+		{% endif %}
+		</td></tr>
+		<tr><th>Segunda Convocatoria:</th><td>
+		{% if matricula.noPresentado2 %}
+			No Presentado
+		{% elif matricula.nota2 == NULL %}
+			No Evaluado
+		{% else %}
+			{{ matricula.nota2 }}
+			{% if matricula.matriculaHonor2 %}
+				 (Matricula de Honor)
+			{% endif %}
+		{% endif %}
+		</td></tr>
+	</table>
+{% endblock %}

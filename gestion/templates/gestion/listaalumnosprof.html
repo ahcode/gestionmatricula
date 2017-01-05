@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block calificara %}{% if calificar %}active{% endif %}{% endblock %}
+{% block todosa %}{% if not calificar %}active{% endif %}{% endblock %}
+
+{% block titulo %}
+{% if calificar %}
+	Calificar Alumnos
+{% else %}
+	Consultar Todos los Cursos
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if lista_de_matriculas %}
+	<table class="table">
+	<tr><th>Nombre</th><th>Primera Convocatoria</th><th>Segunda Convocatoria</th><th></th></tr>
+	{% for mat in lista_de_matriculas %}
+		<tr><td>{{ mat.alumno.first_name }} {{ mat.alumno.last_name }}</td>
+		<td>{% if mat.noPresentado1 %}NP{% elif mat.nota1 == NULL %}NE{% else %}<p class="{% if mat.nota1 >= 5 %}text-success{% else %}text-danger{% endif %}">{{ mat.nota1 }}{% if mat.matriculaHonor1 %} (MH){% endif %}{% endif %}</p></td>
+		<td>{% if mat.noPresentado2 %}NP{% elif mat.nota2 == NULL %}NE{% else %}<p class="{% if mat.nota2 >= 5 %}text-success{% else %}text-danger{% endif %}">{{ mat.nota2 }}{% if mat.matriculaHonor2 %} (MH){% endif %}{% endif %}</p></td>
+		<td><a href="{% url 'gestion:consultar' mat.asignatura.id mat.curso.id mat.alumno.id %}" class="btn btn-default">Detalles</a>{% if calificar %} <a class="btn btn-success" href="{{ request.path }}{{ mat.alumno.id }}">Calificar</a>{% endif %}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<div class="alert alert-danger">
+      <strong>Error!</strong> No hay ningún alumno matriculado este curso.
+    </div>
+{% endif %}
+{% endblock %}
