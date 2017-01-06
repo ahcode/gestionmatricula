@@ -122,7 +122,7 @@
         {% elif request.user.is_staff or request.user.profesorSinVerificar %}
         (Profesor)
         {% else %}
-        (Alumno {{ request.user.carrera.nombre }})
+        (Alumno de {{ request.user.carrera.nombre }})
         {% endif %}
       </div>
       {% if not request.user.is_superuser %}

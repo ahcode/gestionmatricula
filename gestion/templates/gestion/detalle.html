@@ -5,6 +5,7 @@
 {% block content %}
 	<table class="table">
 		<tr><th width=20%>Asignatura:</th><td>{{ matricula.asignatura.nombre }}</td></tr>
+		<tr><th>Curso:</th><td>{{ matricula.curso.getCadena }}</td></tr>
 		<tr><th>Profesores:</th><td>
 		{% for prof in profesores %}
 			{% if forloop.counter != 1 %}, {% endif %}

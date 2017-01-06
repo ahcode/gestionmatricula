@@ -68,7 +68,7 @@ class DetalleNotas(RequiereLogin, View):
 		else:
 			alum = request.user.id
 		matricula = MatriculaAsignatura.objects.get(alumno=alum, asignatura=asig, curso=cur)
-		profesores = Usuario.objects.filter(profesorSinVerificar=False, imparte__in=asig)
+		profesores = Usuario.objects.filter(profesorSinVerificar=False, imparte__in=[asig])
 		return render(request, self.template_name, {'matricula':matricula, 'profesores':profesores, 'profesor':self.profesor})
 
 class ListaCursosAlumnoMatricula(RequiereLogin, EsAlumno, ListView):
